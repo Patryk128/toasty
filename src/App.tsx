@@ -1,26 +1,54 @@
-import { useState, useRef } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [backgroundImage, setBackgroundImage] = useState("");
+  // const [showConfirmReset, setShowConfirmReset] = useState(false); // Stan wyświetlania modalu/
   const audioRef = useRef(null);
 
   const soundFiles = [
+    "/sound/audi.m4a",
     "/sound/bum cyk cyk.m4a",
     "/sound/chatki pierdatki.m4a",
     "/sound/dobra wódka.m4a",
+    "/sound/emeryt.m4a",
+    "/sound/enter.m4a",
+    "/sound/hop siup.m4a",
     "/sound/hulaj dusza.m4a",
     "/sound/i ta rara.m4a",
     "/sound/jadą wozy.m4a",
+    "/sound/jak powiedział budzik.m4a",
     "/sound/jedzie pociąg.m4a",
+    "/sound/kaczki.m4a",
+    "/sound/lata tadek.m4a",
+    "/sound/na zdrowie.m4a",
+    "/sound/no to rym cym.m4a",
     "/sound/noga w noge.m4a",
+    "/sound/ojca maybacha.m4a",
     "/sound/ole ole.m4a",
+    "/sound/pbg.m4a",
+    "/sound/piedro lamento.m4a",
     "/sound/po maluszku.m4a",
+    "/sound/po_dziubasku.mp3",
+    "/sound/pod te faze.m4a",
+    "/sound/polak węgier.m4a",
+    "/sound/polej pan.m4a",
+    "/sound/rach ciach ciach.m4a",
+    "/sound/rym cim cim.m4a",
+    "/sound/rym cym cym.m4a",
+    "/sound/skacze małpa.m4a",
+    "/sound/szanze lize.m4a",
+    "/sound/tyrtum 1.m4a",
+    "/sound/tyrtum 2.m4a",
+    "/sound/ufo.m4a",
+    "/sound/umcia umcia.m4a",
+    "/sound/w ten kaczu dziób.m4a",
+    "/sound/wiwacik.m4a",
+    "/sound/wszechświat.m4a",
+    "/sound/wyciągaj wagoniki.m4a",
+    "/sound/za jagieło.m4a",
+    "/sound/zagraj jasiu.m4a",
   ];
 
   const backgroundImages = [
@@ -34,9 +62,7 @@ function App() {
       const audio = new Audio(soundFiles[randomIndex]);
 
       setIsPlaying(true);
-
-      audio.volume = volume;
-
+      audio.volume = 1; // Ustaw stałą głośność na 1 (maksymalną)
       audioRef.current = audio;
 
       audio.play();
@@ -46,83 +72,53 @@ function App() {
       });
     }
   };
-  const handleVolumeChange = (event) => {
-    const newVolume = event.target.value;
-    setVolume(newVolume);
-
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume;
-    }
-  };
 
   const changeBackgroundIfNeeded = (newCount) => {
     if (newCount % 5 === 0) {
       const randomImage =
         backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-      setBackgroundImage(randomImage); // Ustaw losowe tło
+      document.body.style.backgroundImage = `url(${randomImage})`;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
     }
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${backgroundImage})`, // Ustaw tło jako obrazek
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        padding: "20px",
-      }}
-    >
-      <h1>Liczba: {count}</h1>
-      <div className="card">
-        <button
-          onClick={() => {
-            const newCount = count + 1;
-            setCount(newCount);
-            playRandomSound(); // Odtwórz losowy dźwięk przy każdym kliknięciu
-            changeBackgroundIfNeeded(newCount); // Zmieniaj tło co 5 kliknięć
-          }}
-          disabled={isPlaying} // Zablokuj przycisk, gdy dźwięk jest odtwarzany
-        >
-          {isPlaying ? "Odtwarzanie..." : "Wypij"}
-        </button>
+    <div className="background-image" style={{}}>
+      <div style={{ padding: "20px" }}>
+        <h1>Liczba: {count}</h1>
+        <div className="card">
+          <button
+            onClick={() => {
+              const newCount = count + 1;
+              setCount(newCount);
+              playRandomSound();
+              changeBackgroundIfNeeded(newCount);
+            }}
+            disabled={isPlaying}
+          >
+            {isPlaying ? "Odtwarzanie..." : "Wypij"}
+          </button>
 
-        {/* Suwak głośności */}
-        <div>
-          <label htmlFor="volume">Głośność:</label>
-          <input
-            type="range"
-            id="volume"
-            name="volume"
-            min="0"
-            max="1"
-            step="0.01" // Dokładność do dwóch miejsc po przecinku
-            value={volume}
-            onChange={handleVolumeChange}
-          />
+          <p>
+            {count === 0
+              ? "Zacznij kliknąć, aby wypić!"
+              : count > 0 && count < 5
+              ? "Jeszcze trochę!"
+              : count >= 5 && count < 10
+              ? "Dobrze ci idzie!"
+              : count >= 10 && count < 15
+              ? "Już prawie 15!"
+              : count >= 15 && count < 20
+              ? "Świetnie, masz już 15!"
+              : count >= 20 && count < 25
+              ? "Czy dasz radę dobić do 25?"
+              : count >= 25
+              ? "Wow, osiągnąłeś 25! Super!"
+              : ""}
+          </p>
         </div>
-
-        <p>
-          {count === 0
-            ? "Zacznij kliknąć, aby wypić!"
-            : count > 0 && count < 5
-            ? "Jeszcze trochę!"
-            : count >= 5 && count < 10
-            ? "Dobrze ci idzie!"
-            : count >= 10 && count < 15
-            ? "Już prawie 15!"
-            : count >= 15 && count < 20
-            ? "Świetnie, masz już 15!"
-            : count >= 20 && count < 25
-            ? "Czy dasz radę dobić do 25?"
-            : count >= 25
-            ? "Wow, osiągnąłeś 25! Super!"
-            : ""}
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   );
 }
