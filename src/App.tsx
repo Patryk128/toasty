@@ -1,14 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  // const [showConfirmReset, setShowConfirmReset] = useState(false); // Stan wyświetlania modalu/
   const audioRef = useRef(null);
 
   const soundFiles = [
     "/sound/audi.m4a",
+    "/sound/betoniara.m4a",
     "/sound/bum cyk cyk.m4a",
     "/sound/chatki pierdatki.m4a",
     "/sound/dobra wódka.m4a",
@@ -51,18 +51,13 @@ function App() {
     "/sound/zagraj jasiu.m4a",
   ];
 
-  const backgroundImages = [
-    "/images/background1.jpg",
-    "/images/background2.jpg",
-  ];
-
   const playRandomSound = () => {
     if (!isPlaying) {
       const randomIndex = Math.floor(Math.random() * soundFiles.length);
       const audio = new Audio(soundFiles[randomIndex]);
 
       setIsPlaying(true);
-      audio.volume = 1; // Ustaw stałą głośność na 1 (maksymalną)
+      audio.volume = 1;
       audioRef.current = audio;
 
       audio.play();
@@ -73,27 +68,16 @@ function App() {
     }
   };
 
-  const changeBackgroundIfNeeded = (newCount) => {
-    if (newCount % 5 === 0) {
-      const randomImage =
-        backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
-      document.body.style.backgroundImage = `url(${randomImage})`;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-    }
-  };
-
   return (
-    <div className="background-image" style={{}}>
-      <div style={{ padding: "20px" }}>
-        <h1>Liczba: {count}</h1>
-        <div className="card">
+    <div className="background-image">
+      <div className="app-card">
+        <h1 className="app-header">Wypite: {count}</h1>
+        <div className="app-nav">
           <button
             onClick={() => {
               const newCount = count + 1;
               setCount(newCount);
               playRandomSound();
-              changeBackgroundIfNeeded(newCount);
             }}
             disabled={isPlaying}
           >
@@ -102,19 +86,21 @@ function App() {
 
           <p>
             {count === 0
-              ? "Zacznij kliknąć, aby wypić!"
-              : count > 0 && count < 5
-              ? "Jeszcze trochę!"
+              ? "Jestem, tak jak pan kazałeś"
+              : count >= 1 && count < 5
+              ? "Ide se pić kurakao, a pan nie"
               : count >= 5 && count < 10
-              ? "Dobrze ci idzie!"
+              ? "Gardze panem"
               : count >= 10 && count < 15
-              ? "Już prawie 15!"
+              ? "Panie to nie jest takie zwykłe zalewanie mordy tylko kulturalne spożycie"
               : count >= 15 && count < 20
-              ? "Świetnie, masz już 15!"
+              ? "Coś pan narobił"
               : count >= 20 && count < 25
-              ? "Czy dasz radę dobić do 25?"
-              : count >= 25
-              ? "Wow, osiągnąłeś 25! Super!"
+              ? "Won stąd świniaku jeden"
+              : count >= 25 && count < 30
+              ? "No i co? Co? Zezwymiotowała się świnia i jeszcze obrus ściągła"
+              : count >= 30
+              ? "Sam pan jesteś świnia i menda"
               : ""}
           </p>
         </div>
