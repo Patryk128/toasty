@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const soundFiles = [
     "/sound/audi.m4a",
@@ -58,6 +58,8 @@ function App() {
 
       setIsPlaying(true);
       audio.volume = 1;
+
+      // Use the existing audioRef declared at the top
       audioRef.current = audio;
 
       audio.play();
