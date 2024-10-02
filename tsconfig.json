@@ -1,7 +1,16 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "compilerOptions": {
+    "target": "ES6", // Wersja JavaScript, do której kompilować
+    "module": "ES6", // Moduł, np. ES6, CommonJS
+    "jsx": "react", // Użycie JSX
+    "outDir": "./dist", // Katalog docelowy
+    "rootDir": "./src", // Katalog źródłowy
+    "strict": true, // Włączenie surowych reguł typów
+    "esModuleInterop": true, // Obsługa modułów ES
+    "skipLibCheck": true, // Pomijanie kontroli plików bibliotek
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*" // Wskazuje na pliki do kompilacji
   ]
 }
